@@ -25,7 +25,7 @@ chrome_options.add_experimental_option("detach", True)
 service = Service(ChromeDriverManager().install()) #instala versão atual do chrome drive
 driver = webdriver.Chrome(service=service, options=chrome_options) #cria uma instancia do navegador
 
-url = "website"
+url = r"file:///C:/Users/ferna/Downloads/Justwatch/Netflix/Netflix%20Brasil%20-%20melhores%20filmes%20e%20s%C3%A9ries%20online%20do%20JustWatch.html"
 
 driver.get(url)
 
@@ -41,6 +41,7 @@ contentTypeList = []
 originalName = []
 originalNamesList = []
 imageFileList = []
+urlList = []
 
 
 # Função que verifica se tem título original e adiciona à lista
@@ -68,10 +69,10 @@ def remove_newlines(sinopseList):
     return sinopseList
 
 # Clica em cada pagina e extrai os dados
-current_value = 1537
+current_value = 1905
 loop_number = 0
 
-for i in range(1537, 1541):
+for i in range(1905, 1960):
     try:
         new_xpath = xpath.replace("div[$]", f"div[{current_value}]")
 
@@ -168,6 +169,11 @@ for i in range(1537, 1541):
         sinopseList = remove_newlines(sinopseList)
         print("step_11")
 
+        # Cria uma lista com a url
+
+        urlContent = driver.current_url
+        urlList.append(urlContent)
+
     except NoSuchElementException:  # Exceção se o elemento não for encontrado
         print(current_value)
         break  # Termina o loop quando não houver mais itens
@@ -175,7 +181,7 @@ for i in range(1537, 1541):
 
     # Retorna no terminal as listas
 
-    print(current_value, title, originalName, sinopse, genders, streamOptions, temporada, imageName[-1])
+    print(current_value, title, originalName, sinopse, genders, streamOptions, temporada, imageName[-1], urlContent)
 
     driver.back()
 
@@ -188,11 +194,12 @@ print(genderList)
 print(streamList)
 print(contentTypeList)
 print(imageFileList)
+print(urlList)
 
 
 
 # Cria o dataframe do pandas e gera o csv e json
-df = pd.DataFrame(data=[name, originalNamesList, sinopseList, genderList, streamList, contentTypeList, imageFileList], index=["Title", "OriginalName", "Sinopse", "Gender", "StreamOptions", "Temporadas", "ImageName"])
+df = pd.DataFrame(data=[name, originalNamesList, sinopseList, genderList, streamList, contentTypeList, imageFileList, urlList], index=["Title", "OriginalName", "Sinopse", "Gender", "StreamOptions", "Temporadas", "ImageName", "URL"],)
 df = df.transpose()
-df.to_json("dataFrame1.json")
-df.to_csv("dataFrame1.csv")
+df.to_json("dataFrame23.json")
+df.to_csv("dataFrame23.csv")
