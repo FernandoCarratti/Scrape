@@ -25,7 +25,7 @@ chrome_options.add_experimental_option("detach", True)
 service = Service(ChromeDriverManager().install()) #instala versão atual do chrome drive
 driver = webdriver.Chrome(service=service, options=chrome_options) #cria uma instancia do navegador
 
-url = r"file:///C:/Users/ferna/Downloads/Justwatch/Netflix/Netflix%20Brasil%20-%20melhores%20filmes%20e%20s%C3%A9ries%20online%20do%20JustWatch.html"
+url = 'website'
 
 driver.get(url)
 
